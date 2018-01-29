@@ -1,4 +1,10 @@
 <?php
+/**
+ * @copyright Copyright (c) 2018 Ivan Orlov
+ * @license   https://github.com/demisang/yii1-bugsnag/blob/master/LICENSE
+ * @link      https://github.com/demisang/yii1-bugsnag#readme
+ * @author    Ivan Orlov <gnasimed@gmail.com>
+ */
 
 namespace demi\bugsnag\yii1;
 

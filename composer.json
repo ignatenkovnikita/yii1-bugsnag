@@ -1,21 +1,14 @@
 {
     "name": "demi/yii1-bugsnag",
     "description": "Yii1 bugsnag error handler",
-    "keywords": [
-        "php",
-        "bugsnag",
-        "yii1",
-        "error",
-        "handler",
-        "logger"
-    ],
+    "keywords": ["php", "bugsnag", "yii1", "error", "handler", "logger"],
     "homepage": "https://github.com/demisang/yii1-bugsnag#readme",
     "type": "library",
-    "license": "GNU",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Ivan Orlov",
-            "email": "orlov_mail@mail.ru",
+            "email": "gnasimed@gmail.com",
             "homepage": "https://orlov.io/",
             "role": "Creator"
         }

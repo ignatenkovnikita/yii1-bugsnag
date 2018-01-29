@@ -5,6 +5,7 @@ Yii1 bugsnag error handler
 
 Installation
 ------------
+Run
 ```code
 composer require "demi/yii1-bugsnag" "~1.0"
 ```
