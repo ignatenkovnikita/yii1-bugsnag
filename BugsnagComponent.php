@@ -8,13 +8,15 @@
 
 namespace demi\bugsnag\yii1;
 
+use Bugsnag\Client;
+use MrClay\Cli;
 use Yii;
 use Bugsnag_Client;
 
 /**
  * Bugsnag component
  *
- * @property-read Bugsnag_Client $client
+ * @property-read Client $client
  */
 class BugsnagComponent extends \CApplicationComponent
 {
@@ -53,7 +55,7 @@ class BugsnagComponent extends \CApplicationComponent
     /**
      * Bugsnag client instance
      *
-     * @var Bugsnag_Client
+     * @var Client
      */
     protected $_client;
 
@@ -79,7 +81,7 @@ class BugsnagComponent extends \CApplicationComponent
     /**
      * Get bugsnag client instance
      *
-     * @return Bugsnag_Client
+     * @return Client
      */
     public function getClient()
     {
@@ -88,18 +90,25 @@ class BugsnagComponent extends \CApplicationComponent
         }
 
         // Client
-        $client = new Bugsnag_Client($this->bugsnagApiKey);
-        $client->setNotifyReleaseStages($this->notifyReleaseStages);
-        $client->setReleaseStage($this->releaseStage);
-        $client->setFilters($this->filters);
+        $client = Client::make($this->bugsnagApiKey);
+//        $client->setNotifyReleaseStages($this->notifyReleaseStages);
+//        $client->setReleaseStage($this->releaseStage);
+//        $client->setFilters($this->filters);
         // Set project root
-        if ($this->projectRoot !== null) {
-            $client->setProjectRoot($this->projectRoot);
-        }
+//        if ($this->projectRoot !== null) {
+//            $client->setProjectRoot($this->projectRoot);
+//        }
         // Set user info
         $user = $this->getUserData();
         if ($user) {
-            $client->setUser($user);
+            $client->registerCallback(function ($report) {
+                $report->setUser([
+                    'id' => '123456',
+                    'name' => 'Leeroy Jenkins',
+                    'email' => 'leeeeroy@jenkins.com',
+                ]);
+            });
+//            $client->setUser($user);
         }
 
         // Store client
@@ -112,25 +121,25 @@ class BugsnagComponent extends \CApplicationComponent
      * Notify Bugsnag of a non-fatal/handled throwable
      *
      * @param \Throwable $throwable the throwable to notify Bugsnag about
-     * @param array $metaData       optional metaData to send with this error
-     * @param String $severity      optional severity of this error (fatal/error/warning/info)
+     * @param array $metaData optional metaData to send with this error
+     * @param String $severity optional severity of this error (fatal/error/warning/info)
      */
     public function notifyException($throwable, array $metaData = null, $severity = null)
     {
-        $this->client->notifyException($throwable, $metaData, $severity);
+        $this->client->notifyException($throwable, $callback = null);
     }
 
     /**
      * Notify Bugsnag of a non-fatal/handled error
      *
-     * @param String $name     the name of the error, a short (1 word) string
-     * @param String $message  the error message
-     * @param array $metaData  optional metaData to send with this error
+     * @param String $name the name of the error, a short (1 word) string
+     * @param String $message the error message
+     * @param array $metaData optional metaData to send with this error
      * @param String $severity optional severity of this error (fatal/error/warning/info)
      */
-    public function notifyError($name, $message, array $metaData = null, $severity = null)
+    public function notifyError($name, $message)
     {
-        $this->client->notifyError($name, $message, $metaData, $severity);
+        $this->client->notifyError($name, $message, $callback = null);
     }
 
     /**
